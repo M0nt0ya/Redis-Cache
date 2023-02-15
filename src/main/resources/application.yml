@@ -1,0 +1,54 @@
+spring:
+#JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: false
+
+
+    database: postgresql
+
+#JACKSON
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      FAIL_ON_EMPTY_BEANS: false
+    deserialization:
+      unwrap-root-value: false
+
+#REDIS
+  profiles:
+    active:
+    - dev
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 10000ms #10 segundos
+    lettuce:
+      pool:
+        max-active: 8  #Número máximo de conexiones
+        max-wait: -1ms #Tiempo de espera de bloqueo
+        max-idle: 8 #Conexión inactiva máxima
+        min-idle: 8 #La conexión inactiva más pequeña
+  cache:
+    type: redis
+    redis:
+      time-to-live: 10s
+      cache-null-values: false
+      use-key-prefix: true
+---
+#POSTGRES
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Persona
+    username: postgres
+    password: 1234
+server:
+  port: 8080
+---
